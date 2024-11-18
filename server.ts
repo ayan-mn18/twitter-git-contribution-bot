@@ -10,6 +10,8 @@ const USERNAME = process.env.GITHUB_USERNAME || 'ayan-mn18' ;
 
 import { TwitterApi } from 'twitter-api-v2';
 import getRecentContributions from "./fetchGithubContributions";
+import { setupBullBoard } from "./config/SetupBullBoard";
+import { queue } from "./jobs/testScheduler";
 
 
 // Load credentials from environment variables
@@ -30,11 +32,13 @@ const postTweet = async (message: string) => {
 };
 
 app.get('/post', async (req,res) => {
-  // postTweet('This is my bot tweeting for me :)')
   const contributions = await getRecentContributions(USERNAME);
   console.log(`Contributions in the last 24 hours: ${contributions}`);
+  queue.add('test', {
+            contributions,
+        });
 
-  postTweet(`My lazy ass only did ${contributions} commits in last 24 hours \n\n\n\n Ayan's twitter bot`);
+  // postTweet(`My lazy ass only did ${contributions} commits in last 24 hours \n\n\n\n Ayan's twitter bot`);
   res.json({ contributions:  contributions}); 
 });
 
@@ -48,8 +52,12 @@ app.get('/post', async (req,res) => {
 
 // console.log('Cron job scheduled to post a tweet every day at 00:01.');
   
+// Setup Bull Board
+const bullBoardAdapter = setupBullBoard();
+app.use('/admin/queues', bullBoardAdapter.getRouter());
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT} \n\n\n`);
+  console.log(`BullBoard running on http://localhost:${PORT}/admin/queues 🔥`)
 });
   

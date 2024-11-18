@@ -3,7 +3,14 @@ import axios from 'axios';
 // Fetch recent GitHub contributions without authentication
 const getRecentContributions = async (username: string): Promise<number> => {
   const GITHUB_API_URL = `https://api.github.com/users/${username}/events`;
-  const ONE_DAY_AGO = new Date(Date.now() - 24 * 60 * 60 * 1000);
+  const getUtcDateOneDayAgo = () => {
+    const now = new Date(); // Current date and time
+    const utcNow = new Date(now.toUTCString()); // Convert to UTC
+    const utcOneDayAgo = new Date(utcNow.getTime() - 2 * 24 * 60 * 60 * 1000); // Subtract 24 hours
+    return utcOneDayAgo;
+  };
+  
+  const ONE_DAY_AGO = getUtcDateOneDayAgo();
 
   try {
     const response = await axios.get(GITHUB_API_URL);
@@ -24,10 +31,10 @@ const getRecentContributions = async (username: string): Promise<number> => {
 };
 
 // Example usage
-(async () => {
-  const username = 'ayan-mn18'; // Replace with the GitHub username
-  const contributions = await getRecentContributions(username);
-  console.log(`Contributions in the last 24 hours: ${contributions}`);
-})();
+// (async () => {
+//   const username = 'ayan-mn18'; // Replace with the GitHub username
+//   const contributions = await getRecentContributions(username);
+//   console.log(`Contributions in the last 24 hours: ${contributions}`);
+// })();
 
 export default getRecentContributions;
