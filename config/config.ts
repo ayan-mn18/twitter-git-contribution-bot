@@ -5,6 +5,10 @@ export const githubConfig = {
   username: process.env.GITHUB_USERNAME
 }
 
+export const LeetcodeConfig = {
+  username: process.env.LEETCODE_USERNAME
+}
+
 export const XConfig = {
   appKey: process.env.X_API_KEY!,
   appSecret: process.env.X_API_SECRET!,

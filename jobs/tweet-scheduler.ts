@@ -2,8 +2,8 @@
 
 import { Queue } from "bullmq";
 import { Worker, Job} from 'bullmq';
-import { BullMQConfig, githubConfig, redisConfig } from "../config/config";
-import { generateTweetMesg, getRecentContributions, postTweet } from "../services";
+import { BullMQConfig, githubConfig, LeetcodeConfig, redisConfig } from "../config/config";
+import { generateTweetMesg, getLeetcodeSubmissions, getRecentContributions, postTweet } from "../services";
 import { clearQueue } from "../config/SetupBullBoard";
 
 const options = {connection: { host: redisConfig.host, port: redisConfig.port}}
@@ -14,6 +14,9 @@ const worker = new Worker('TestQueue', async (job: Job) => {
   // define your JOb Here
   console.log('fetching contributions.....')
   const contributions = await getRecentContributions(githubConfig.username!);
+
+  console.log('fetching leetcode submissions...')
+  const submissions = await getLeetcodeSubmissions(LeetcodeConfig.username!)
 
   console.log('posting tweet.....')
   console.log(generateTweetMesg(contributions))

@@ -12,7 +12,8 @@ const HOST = process.env.HOST
 import { setupBullBoard } from "./config/SetupBullBoard";
 import { replaceJob } from "./jobs/tweet-scheduler";
 import { getRecentContributions } from "./services/github";
-import { githubConfig } from "./config/config";
+import { githubConfig, LeetcodeConfig } from "./config/config";
+import { getLeetcodeSubmissions } from "./services";
 
 app.get('/post', async (req,res) => {
   const contributions = await getRecentContributions(githubConfig.username!);
@@ -27,6 +28,10 @@ const bullBoardAdapter = setupBullBoard();
 app.use('/admin/queues', bullBoardAdapter.getRouter());
 
 replaceJob();
+(async () => {
+  const submissions = await getLeetcodeSubmissions(LeetcodeConfig.username!)
+  console.log(`Leetcode Submissions: ${submissions}`);
+})();
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT} \n\n\n`);
