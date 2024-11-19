@@ -2,6 +2,7 @@ import { createBullBoard } from '@bull-board/api';
 import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
 import { ExpressAdapter } from '@bull-board/express';
 import { queue } from '../jobs/tweet-scheduler';
+import { Queue } from 'bullmq';
 
 
 export function setupBullBoard() {
@@ -20,3 +21,12 @@ export function setupBullBoard() {
 
     return serverAdapter;
 }
+
+export const clearQueue = async (queue: Queue) => {
+    try {
+      await queue.obliterate({ force: true }); // Use force: true to bypass job count check
+      console.log('Queue cleared successfully.');
+    } catch (error) {
+      console.error('Error clearing queue:', error);
+    }
+  };

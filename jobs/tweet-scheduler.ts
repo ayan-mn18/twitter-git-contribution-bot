@@ -4,6 +4,7 @@ import { Queue } from "bullmq";
 import { Worker, Job} from 'bullmq';
 import { githubConfig, redisConfig } from "../config/config";
 import { getRecentContributions, postTweet } from "../services";
+import { clearQueue } from "../config/SetupBullBoard";
 
 const options = {connection: { host: redisConfig.host, port: redisConfig.port}}
 const cronPattern = '27 0 * * *'; // Runs every day at midnight
@@ -25,10 +26,7 @@ const worker = new Worker('TestQueue', async (job: Job) => {
 // Function to add a new recurring job and replace the old one
 export const replaceJob = async () => {
   // First, remove the old repeatable job
-  await queue.removeRepeatable('fetchAndTweetJob', 
-    { pattern: cronPattern },
-    // { every: 2000 }
-  );
+  clearQueue(queue);
 
   // Then, add a new repeatable job with the same name
   await queue.add(
