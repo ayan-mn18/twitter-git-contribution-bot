@@ -5,7 +5,9 @@
   "main": "server.ts",
   "scripts": {
     "dev": "tsx watch server.ts",
-    "redis": "docker run --name redis-server -d -p 6379:6379 redis"
+    "redis": "docker run --name redis-server -d -p 6379:6379 redis",
+    "build": "tsc",
+    "start": "node dist/server.js"
   },
   "keywords": [],
   "author": "",
