@@ -48,9 +48,6 @@ app.use('/admin/queues', bullBoardAdapter.getRouter());
 
 replaceJob();
 
-// const ONE_DAY_AGO_IST = moment().tz('Asia/Kolkata').subtract(24, 'hours');
-//   console.log(ONE_DAY_AGO_IST.toDate())
-
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT} \n\n\n`);
   console.log(`BullBoard running on http://localhost:${PORT}/admin/queues 🔥`)
