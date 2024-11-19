@@ -1,7 +1,7 @@
 import { createBullBoard } from '@bull-board/api';
 import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
 import { ExpressAdapter } from '@bull-board/express';
-import { queue } from '../jobs/testScheduler';
+import { queue } from '../jobs/tweet-scheduler';
 
 
 export function setupBullBoard() {

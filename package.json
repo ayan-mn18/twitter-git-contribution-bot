@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "dev": "tsx watch server.ts"
+    "dev": "tsx watch server.ts",
+    "redis": "docker run --name redis-server -d -p 6379:6379 redis"
   },
   "keywords": [],
   "author": "",

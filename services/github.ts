@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Fetch recent GitHub contributions without authentication
-const getRecentContributions = async (username: string): Promise<number> => {
+export const getRecentContributions = async (username: string): Promise<number> => {
   const GITHUB_API_URL = `https://api.github.com/users/${username}/events`;
   const getUtcDateOneDayAgo = () => {
     const now = new Date(); // Current date and time
@@ -37,4 +37,3 @@ const getRecentContributions = async (username: string): Promise<number> => {
 //   console.log(`Contributions in the last 24 hours: ${contributions}`);
 // })();
 
-export default getRecentContributions;
