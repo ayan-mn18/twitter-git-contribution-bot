@@ -21,3 +21,8 @@ export const redisConfig = {
       return Math.min(times * 50, 2000);
   },
 };
+
+export const BullMQConfig = {
+  timezone: process.env.BULL_TIMEZONE,
+  cronPattern: process.env.BULL_CRON_PATTERN
+}

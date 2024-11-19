@@ -2,15 +2,13 @@
 
 import { Queue } from "bullmq";
 import { Worker, Job} from 'bullmq';
-import { githubConfig, redisConfig } from "../config/config";
+import { BullMQConfig, githubConfig, redisConfig } from "../config/config";
 import { getRecentContributions, postTweet } from "../services";
 import { clearQueue } from "../config/SetupBullBoard";
 
 const options = {connection: { host: redisConfig.host, port: redisConfig.port}}
-const cronPattern = '27 0 * * *'; // Runs every day at midnight
 
 export const queue = new Queue('TestQueue', options);
-const timezone = "Asia/Kolkata"; // Change this to your desired timezone
 
 const worker = new Worker('TestQueue', async (job: Job) => {
   // define your JOb Here
@@ -35,7 +33,7 @@ export const replaceJob = async () => {
     { }, // Job data
     {
       repeat: 
-      { pattern: cronPattern, tz: timezone },
+      { pattern: BullMQConfig.cronPattern, tz: BullMQConfig.timezone },
       // { every: 2000 },
       removeOnComplete: true, // Automatically remove completed jobs
     }
