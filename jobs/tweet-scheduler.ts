@@ -6,7 +6,7 @@ import { githubConfig, redisConfig } from "../config/config";
 import { getRecentContributions, postTweet } from "../services";
 
 const options = {connection: { host: redisConfig.host, port: redisConfig.port}}
-const cronPattern = '0 0 * * *'; // Runs every day at midnight
+const cronPattern = '27 0 * * *'; // Runs every day at midnight
 
 export const queue = new Queue('TestQueue', options);
 
@@ -16,7 +16,7 @@ const worker = new Worker('TestQueue', async (job: Job) => {
   const contributions = await getRecentContributions(githubConfig.username!);
 
   console.log('posting tweet.....')
-  postTweet(`Working my way up a bit, did ${contributions} contributions in last 24 hrs \n\n\n Ayan's twitter bot`)
+  // postTweet(`Working my way up a bit, did ${contributions} contributions in last 24 hrs \n\n\n Ayan's twitter bot`)
 
 
   console.log('Success')
@@ -41,8 +41,6 @@ export const replaceJob = async () => {
       removeOnComplete: true, // Automatically remove completed jobs
     }
   );
-
-  console.log(process.env.GITHUB_USERNAME)
 
   console.log('fetchAndTweetJob has been replaced!');
 };

@@ -1,16 +1,11 @@
 import axios from 'axios';
+import moment from 'moment-timezone';
 
 // Fetch recent GitHub contributions without authentication
 export const getRecentContributions = async (username: string): Promise<number> => {
   const GITHUB_API_URL = `https://api.github.com/users/${username}/events`;
-  const getUtcDateOneDayAgo = () => {
-    const now = new Date(); // Current date and time
-    const utcNow = new Date(now.toUTCString()); // Convert to UTC
-    const utcOneDayAgo = new Date(utcNow.getTime() - 2 * 24 * 60 * 60 * 1000); // Subtract 24 hours
-    return utcOneDayAgo;
-  };
   
-  const ONE_DAY_AGO = getUtcDateOneDayAgo();
+  const ONE_DAY_AGO_IST = moment().tz('Asia/Kolkata').subtract(24, 'hours');
 
   try {
     const response = await axios.get(GITHUB_API_URL);
@@ -19,7 +14,7 @@ export const getRecentContributions = async (username: string): Promise<number> 
     // Filter events created in the last 24 hours
     const recentEvents = events.filter((event: any) => {
       const eventDate = new Date(event.created_at);
-      return eventDate > ONE_DAY_AGO;
+      return eventDate > ONE_DAY_AGO_IST.toDate();
     });
 
     console.log(`Fetched ${events.length} events. Found ${recentEvents.length} in the last 24 hours.`);
