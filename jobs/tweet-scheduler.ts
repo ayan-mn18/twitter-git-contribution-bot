@@ -10,6 +10,7 @@ const options = {connection: { host: redisConfig.host, port: redisConfig.port}}
 const cronPattern = '27 0 * * *'; // Runs every day at midnight
 
 export const queue = new Queue('TestQueue', options);
+const timezone = "Asia/Kolkata"; // Change this to your desired timezone
 
 const worker = new Worker('TestQueue', async (job: Job) => {
   // define your JOb Here
@@ -34,7 +35,7 @@ export const replaceJob = async () => {
     { }, // Job data
     {
       repeat: 
-      { pattern: cronPattern },
+      { pattern: cronPattern, tz: timezone },
       // { every: 2000 },
       removeOnComplete: true, // Automatically remove completed jobs
     }
