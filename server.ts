@@ -14,6 +14,7 @@ import { setupBullBoard } from "./config/SetupBullBoard";
 import { queue, replaceJob } from "./jobs/tweet-scheduler";
 import { getRecentContributions } from "./services/github";
 import { githubConfig } from "./config/config";
+import moment from "moment-timezone";
 
 
 // Load credentials from environment variables
@@ -46,6 +47,9 @@ const bullBoardAdapter = setupBullBoard();
 app.use('/admin/queues', bullBoardAdapter.getRouter());
 
 replaceJob();
+
+// const ONE_DAY_AGO_IST = moment().tz('Asia/Kolkata').subtract(24, 'hours');
+//   console.log(ONE_DAY_AGO_IST.toDate())
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT} \n\n\n`);

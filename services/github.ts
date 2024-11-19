@@ -5,7 +5,8 @@ import moment from 'moment-timezone';
 export const getRecentContributions = async (username: string): Promise<number> => {
   const GITHUB_API_URL = `https://api.github.com/users/${username}/events`;
   
-  const ONE_DAY_AGO_IST = moment().tz('Asia/Kolkata').subtract(24, 'hours');
+  const ONE_DAY_AGO_IST = moment().tz('Asia/Kolkata').subtract(48, 'hours');
+  console.log(ONE_DAY_AGO_IST.toDate())
 
   try {
     const response = await axios.get(GITHUB_API_URL);

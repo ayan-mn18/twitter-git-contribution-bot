@@ -3,7 +3,7 @@
 import { Queue } from "bullmq";
 import { Worker, Job} from 'bullmq';
 import { BullMQConfig, githubConfig, redisConfig } from "../config/config";
-import { getRecentContributions, postTweet } from "../services";
+import { generateTweetMesg, getRecentContributions, postTweet } from "../services";
 import { clearQueue } from "../config/SetupBullBoard";
 
 const options = {connection: { host: redisConfig.host, port: redisConfig.port}}
@@ -16,8 +16,9 @@ const worker = new Worker('TestQueue', async (job: Job) => {
   const contributions = await getRecentContributions(githubConfig.username!);
 
   console.log('posting tweet.....')
-  // postTweet(`Working my way up a bit, did ${contributions} contributions in last 24 hrs \n\n\n Ayan's twitter bot`)
+  console.log(generateTweetMesg(contributions))
 
+  postTweet(generateTweetMesg(contributions))
 
   console.log('Success')
 }, options);
