@@ -7,32 +7,12 @@ import express from "express";
 const app = express();
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
-const USERNAME = process.env.GITHUB_USERNAME || 'ayan-mn18' ;
+const HOST = process.env.HOST
 
-import { TwitterApi } from 'twitter-api-v2';
 import { setupBullBoard } from "./config/SetupBullBoard";
-import { queue, replaceJob } from "./jobs/tweet-scheduler";
+import { replaceJob } from "./jobs/tweet-scheduler";
 import { getRecentContributions } from "./services/github";
 import { githubConfig } from "./config/config";
-import moment from "moment-timezone";
-
-
-// Load credentials from environment variables
-// const client = new TwitterApi({
-//   appKey: process.env.X_API_KEY!,
-//   appSecret: process.env.X_API_SECRET!,
-//   accessToken: process.env.X_ACCESS_TOKEN!,
-//   accessSecret: process.env.X_ACCESS_SECRET!,
-// });
-
-// const postTweet = async (message: string) => {
-//   try {
-//     const response = await client.v2.tweet(message);
-//     console.log('Tweet posted:', response);
-//   } catch (error) {
-//     console.error('Error posting tweet:', error);
-//   }
-// };
 
 app.get('/post', async (req,res) => {
   const contributions = await getRecentContributions(githubConfig.username!);
@@ -50,6 +30,6 @@ replaceJob();
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT} \n\n\n`);
-  console.log(`BullBoard running on http://localhost:${PORT}/admin/queues 🔥`)
+  console.log(`BullBoard running on ${HOST}/admin/queues 🔥`)
 });
   
