@@ -7,7 +7,10 @@
     "dev": "tsx watch server.ts",
     "redis": "docker run --name redis-server -d -p 6379:6379 redis",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "studio": "npx drizzle-kit studio --port=3000",
+    "generate-db": "npx drizzle-kit generate",
+    "push-db": "npx drizzle-kit push"
   },
   "keywords": [],
   "author": "",
@@ -15,9 +18,12 @@
   "dependencies": {
     "@bull-board/express": "^6.5.2",
     "@bull-board/ui": "^6.5.2",
+    "@libsql/client": "^0.14.0",
     "axios": "^1.7.7",
+    "better-sqlite3": "^11.5.0",
     "bullmq": "^5.26.2",
     "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.36.3",
     "express": "^4.21.1",
     "moment-timezone": "^0.5.46",
     "node-cron": "^3.0.3",
@@ -25,8 +31,10 @@
     "typescript": "^5.6.3"
   },
   "devDependencies": {
+    "@types/better-sqlite3": "^7.6.12",
     "@types/express": "^5.0.0",
     "@types/node-cron": "^3.0.11",
+    "drizzle-kit": "^0.28.1",
     "tsx": "^4.19.2"
   }
 }

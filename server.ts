@@ -13,6 +13,7 @@ import { setupBullBoard } from "./config/SetupBullBoard";
 import { replaceJob } from "./jobs/tweet-scheduler";
 import { getRecentContributions } from "./services/github";
 import { githubConfig } from "./config/config";
+import { db } from "./db/config";
 
 app.get('/post', async (req,res) => {
   const contributions = await getRecentContributions(githubConfig.username!);
@@ -21,12 +22,18 @@ app.get('/post', async (req,res) => {
   // postTweet(`My lazy ass only did ${contributions} commits in last 24 hours \n\n\n\n Ayan's twitter bot`);
   res.json({ contributions:  contributions}); 
 });
+
+app.get('/dbconn', async(req, res) => {
+  const data = await db.query.users.findFirst();
+  console.log(data?.email)
+  res.json({data})
+})
   
 // Setup Bull Board
 const bullBoardAdapter = setupBullBoard();
 app.use('/admin/queues', bullBoardAdapter.getRouter());
 
-replaceJob();
+// replaceJob();
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT} \n\n\n`);
