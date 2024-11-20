@@ -1,10 +1,13 @@
 import dotenv from "dotenv";
+import morgan from "morgan";
 
 dotenv.config();
 import express from "express";
 
 
 const app = express();
+
+app.use(morgan('dev'));
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 const HOST = process.env.HOST
@@ -13,6 +16,7 @@ import { setupBullBoard } from "./config/SetupBullBoard";
 import { replaceJob } from "./jobs/tweet-scheduler";
 import { getRecentContributions } from "./services/github";
 import { githubConfig } from "./config/config";
+import routes from './routes';
 import { db } from "./db/config";
 
 app.get('/post', async (req,res) => {
@@ -32,6 +36,8 @@ app.get('/dbconn', async(req, res) => {
 // Setup Bull Board
 const bullBoardAdapter = setupBullBoard();
 app.use('/admin/queues', bullBoardAdapter.getRouter());
+
+app.use('/api', routes);
 
 // replaceJob();
 
