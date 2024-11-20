@@ -3,3 +3,10 @@ export type apiResponse<T = any> = {
   message: String,
   data: T
 }
+
+export type XCredentials = {
+  apiKey: string,
+  apiSecret: string,
+  accessToken: string,
+  accessSecret: string
+}

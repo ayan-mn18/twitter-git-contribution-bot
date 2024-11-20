@@ -1,5 +1,5 @@
 import express from 'express';
-import { createUser } from '../controller';
+import { createUser, deleteUser } from '../controller';
 
 const router = express.Router();
 
@@ -7,8 +7,6 @@ const router = express.Router();
 router.post('/create', createUser);
 
 // DELETE: /delete-user/:userId
-router.delete('/delete/:userId', (req, res) => {
-  res.send('Delete a user');
-});
+router.delete('/delete/:userId', deleteUser);
 
 export default router;

@@ -9,6 +9,7 @@ import { githubConfig } from "./config/config";
 import routes from './routes';
 import { db } from "./db/config";
 import { errorHandler } from "./middleware.ts/errorHandler";
+import { uuid } from 'uuidv4'
 
 const app = express();
 
@@ -40,7 +41,7 @@ app.get('/dbconn', async(req, res) => {
 app.use('/api', routes);
 
 app.use(errorHandler)
-
+console.log(uuid())
 // replaceJob();
 
 app.listen(PORT, () => {
