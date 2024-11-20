@@ -1,23 +1,27 @@
 import dotenv from "dotenv";
-import morgan from "morgan";
-
 dotenv.config();
 import express from "express";
-
-
-const app = express();
-
-app.use(morgan('dev'));
-
-const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
-const HOST = process.env.HOST
-
+import morgan from "morgan";
 import { setupBullBoard } from "./config/SetupBullBoard";
 import { replaceJob } from "./jobs/tweet-scheduler";
 import { getRecentContributions } from "./services/github";
 import { githubConfig } from "./config/config";
 import routes from './routes';
 import { db } from "./db/config";
+import { errorHandler } from "./middleware.ts/errorHandler";
+
+const app = express();
+
+app.use(express.json())
+
+const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
+const HOST = process.env.HOST
+
+// Setup Bull Board
+const bullBoardAdapter = setupBullBoard();
+app.use('/admin/queues', bullBoardAdapter.getRouter());
+
+app.use(morgan('dev'));
 
 app.get('/post', async (req,res) => {
   const contributions = await getRecentContributions(githubConfig.username!);
@@ -32,12 +36,10 @@ app.get('/dbconn', async(req, res) => {
   console.log(data?.email)
   res.json({data})
 })
-  
-// Setup Bull Board
-const bullBoardAdapter = setupBullBoard();
-app.use('/admin/queues', bullBoardAdapter.getRouter());
 
 app.use('/api', routes);
+
+app.use(errorHandler)
 
 // replaceJob();
 

@@ -8,7 +8,7 @@ router.post('/add/:userId', (req, res) => {
 });
 
 // GET: /tweets/:userId
-router.get('tweets/:userId', (req, res) => {
+router.get('/tweets/:userId', (req, res) => {
   res.send('Get tweets for a user sorted by date and time');
 });
 

@@ -1,11 +1,10 @@
 import express from 'express';
+import { createUser } from '../controller';
 
 const router = express.Router();
 
 // POST: /create-user
-router.post('/create', (req, res) => {
-  res.send('Create a user');
-});
+router.post('/create', createUser);
 
 // DELETE: /delete-user/:userId
 router.delete('/delete/:userId', (req, res) => {
