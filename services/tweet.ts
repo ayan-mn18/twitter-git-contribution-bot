@@ -61,7 +61,7 @@ Tweet templates:
   ],
 `
 
-const prompt = "Compose a tweet that reflects today's performance and motivates improvement if necessary. Try to use different emojis & trending hastags & trending words"
+const prompt = "Compose a tweet that reflects today's performance and motivates improvement if necessary. Try to use different emojis & trending hastags & trending words. Also add in every tweet add different famous lines of drake song which is very obvious & funny at the same time. Also use GenZ & GenAlpha lingo. And add hooks add the end of the tweet which can add more interactions. Important: Keep the tweet within 270 characters"
 
   const aiResponse = await generateAiResponse({system, prompt});
 

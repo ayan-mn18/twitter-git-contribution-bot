@@ -34,8 +34,8 @@ app.get('/post', async (req,res) => {
 });
 
 app.get('/tweets', async(req, res) => {
-  // const resposne = await generateTweetMesg(25, '1');
-  // console.log(resposne.choices[0].message.content)
+  // const resposne = await generateTweetMesg(7, '1');
+  // console.log(resposne)
   // res.json()
 })
 
