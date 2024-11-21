@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
 import morgan from "morgan";
-import { setupBullBoard } from "./config/SetupBullBoard";
+import { clearQueue, setupBullBoard } from "./config/SetupBullBoard";
 import { getRecentContributions } from "./services/github";
 import { githubConfig } from "./config/config";
 import routes from './routes';
@@ -10,7 +10,7 @@ import { db } from "./db/config";
 import { errorHandler } from "./middleware.ts/errorHandler";
 import { uuid } from 'uuidv4'
 import { generateTweetMesg } from "./services";
-import { testActivationJobs } from "./jobs/tweet-scheduler";
+import { queue, testActivationJobs } from "./jobs/tweet-scheduler";
 
 const app = express();
 
@@ -34,7 +34,12 @@ app.get('/post', async (req,res) => {
 });
 
 app.get('/tweets', async(req, res) => {
-  await testActivationJobs()
+  // await testActivationJobs()
+  res.json('done')
+})
+
+app.get('/queue/clear', async(req, res) => {
+  await clearQueue(queue)
   res.json('done')
 })
 
