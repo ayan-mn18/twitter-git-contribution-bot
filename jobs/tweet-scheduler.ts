@@ -4,41 +4,43 @@ import { Queue } from "bullmq";
 import { Worker, Job} from 'bullmq';
 import { BullMQConfig, githubConfig, redisConfig } from "../config/config";
 import { generateTweetMesg, getRecentContributions, postTweet } from "../services";
-import { clearQueue } from "../config/SetupBullBoard";
+import { clearQueue, stopUserJobs } from "../config/SetupBullBoard";
 
 const options = {connection: { host: redisConfig.host, port: redisConfig.port}}
 
-export const queue = new Queue('TestQueue', options);
+export const queue = new Queue('TwitterBotQueue', options);
 
-const worker = new Worker('TestQueue', async (job: Job) => {
+const worker = new Worker('TwitterBotQueue', async (job: Job) => {
+
+  const { userId } = job.data;
   // define your JOb Here
   console.log('fetching contributions.....')
   const contributions = await getRecentContributions(githubConfig.username!);
 
   console.log('posting tweet.....')
-  console.log(generateTweetMesg(contributions))
+  const tweetContent = await generateTweetMesg(contributions, userId)
 
-  postTweet(generateTweetMesg(contributions))
+  await postTweet(tweetContent!, userId)
 
   console.log('Success')
 }, options);
 
-// Function to add a new recurring job and replace the old one
-export const replaceJob = async () => {
+// Function to add a new recurring job
+export const activateJob = async (jobFrequencyCronPattern: string, timezone: string, email: string, userId: string) => {
   // First, remove the old repeatable job
-  clearQueue(queue);
+  await stopUserJobs(queue, userId)
 
   // Then, add a new repeatable job with the same name
   await queue.add(
-    'fetchAndTweetJob', // Name of the job
-    { }, // Job data
+    `${email} Twitter Job`, // Name of the job
+    { userId: userId }, // Job data
     {
       repeat: 
-      { pattern: BullMQConfig.cronPattern, tz: BullMQConfig.timezone },
+      { pattern: jobFrequencyCronPattern, tz: timezone },
       // { every: 2000 },
       removeOnComplete: true, // Automatically remove completed jobs
     }
   );
 
-  console.log('fetchAndTweetJob has been replaced!');
+  console.log('Job added in twitter-bot queue!');
 };

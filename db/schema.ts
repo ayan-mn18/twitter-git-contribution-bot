@@ -2,8 +2,6 @@ import {
   sqliteTable,
   text,
   integer,
-  real,
-  unique,
 } from 'drizzle-orm/sqlite-core';
 import { sql } from 'drizzle-orm';
 
@@ -11,12 +9,12 @@ import { sql } from 'drizzle-orm';
 export const users = sqliteTable('users', {
   userId: text('user_id').primaryKey(),
   email: text('email').notNull().unique(),
-  github: text('github').references(() => platformCred.id),
-  leetcode: text('leetcode').references(() => platformCred.id),
-  bitbucket: text('bitbucket').references(() => platformCred.id),
-  timezone: text({ enum: ["IST", "UTC", "GMT"] }), 
-  jobFrequency: text( 'job_frequency', { enum: ["IST", "UTC", "GMT"] }),
-  jobStartTime: text('job_start_time', { enum: ["24hrs", "12hrs", "6hrs"] }), 
+  github_username: text('github_username'),
+  leetcode_username: text('leetcode_username'),
+  bitbucket_username: text('bitbucket_username'),
+  timezone: text('timezone', { enum: ["IST", "UTC", "GMT"] }), 
+  jobFrequency: text('job_frequency', { enum: ["24hrs", "12hrs", "6hrs"] }),
+  jobStartTime: text('job_start_time'), 
   createdAt: integer('created_at', { mode: 'timestamp' }).default(
     sql`CURRENT_TIMESTAMP`
   ),
@@ -36,12 +34,7 @@ export const xCred = sqliteTable('x_cred', {
   twitterUsername: text('twitter_username').notNull().unique(),
 });
 
-export const platformCred = sqliteTable('platform_cred', {
-  id: text('id').primaryKey(),
-  active: integer({ mode: 'boolean' }).notNull(),
-  username: text('username').notNull(),
-});
-
+// tweet
 export const tweet = sqliteTable('tweets', {
   id: text('id').primaryKey(),
   userId: text('user_id').references(() => users.userId),
@@ -53,5 +46,4 @@ export const tweet = sqliteTable('tweets', {
 
 export type User = typeof users.$inferSelect;
 export type XCred = typeof xCred.$inferSelect;
-export type PlatformCred = typeof platformCred.$inferSelect;
 export type Tweet = typeof tweet.$inferSelect;

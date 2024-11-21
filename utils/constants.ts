@@ -8,8 +8,7 @@ export const TWITTER_USERNAME_REQUIRED = { message: 'Twitter username is require
 export const X_CRED_REQUIRED = { message: 'Twitter credentials (API Key, API Secret, Access Token, Access Secret) are required.', statusCode: 400 };
 export const INVALID_TWITTER_USERNAME = { message: 'Invalid Twitter username format.', statusCode: 400 };
 export const TWITTER_USERNAME_ALREADY_REGISTERED = { message: 'Twitter username is already registered use another one', statusCode: 400 };
-
-
+export const INCORRECT_JOB_DETAILS = { message: 'Incorrect job frequency, job start time or timezone provided', statusCode: 400 };
 
 
 
@@ -20,4 +19,6 @@ export const USER_CREATED_SUCCESS = 'User created successfully.'
 export const USER_DELETED_SUCCESS = 'User deleted successfully.'
 export const TWITTER_ACCOUNT_ADDED_SUCCESS = 'Twitter account added successfully.';
 export const TWEETS_FETCHED_SUCCESSFULLY = 'Tweets fetched successfully.';
-
+export const JOB_UPDATED_SUCCESS = 'Jobs updated successfully.';
+export const JOB_ACTIVATE_SUCCESS = 'Job activated successfully.';
+export const JOB_DEACTIVATE_SUCCESS = 'Job deactivated successfully.';

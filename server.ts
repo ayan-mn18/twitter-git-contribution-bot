@@ -3,7 +3,6 @@ dotenv.config();
 import express from "express";
 import morgan from "morgan";
 import { setupBullBoard } from "./config/SetupBullBoard";
-import { replaceJob } from "./jobs/tweet-scheduler";
 import { getRecentContributions } from "./services/github";
 import { githubConfig } from "./config/config";
 import routes from './routes';

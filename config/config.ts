@@ -24,7 +24,10 @@ export const redisConfig = {
 
 export const BullMQConfig = {
   timezone: process.env.BULL_TIMEZONE,
-  cronPattern: process.env.BULL_CRON_PATTERN
+  cronPattern: process.env.BULL_CRON_PATTERN,
+  cronPattern6hrs: '',
+  cronPattern12hrs: '',
+  cronPattern24hrs: '',
 }
 
 export const OpenaiConfig = {
