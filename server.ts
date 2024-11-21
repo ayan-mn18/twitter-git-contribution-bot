@@ -10,6 +10,7 @@ import routes from './routes';
 import { db } from "./db/config";
 import { errorHandler } from "./middleware.ts/errorHandler";
 import { uuid } from 'uuidv4'
+import { generateTweetMesg } from "./services";
 
 const app = express();
 
@@ -32,10 +33,10 @@ app.get('/post', async (req,res) => {
   res.json({ contributions:  contributions}); 
 });
 
-app.get('/dbconn', async(req, res) => {
-  const data = await db.query.users.findFirst();
-  console.log(data?.email)
-  res.json({data})
+app.get('/tweets', async(req, res) => {
+  // const resposne = await generateTweetMesg(25, '1');
+  // console.log(resposne.choices[0].message.content)
+  // res.json()
 })
 
 app.use('/api', routes);

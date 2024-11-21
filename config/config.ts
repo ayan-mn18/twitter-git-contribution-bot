@@ -26,3 +26,8 @@ export const BullMQConfig = {
   timezone: process.env.BULL_TIMEZONE,
   cronPattern: process.env.BULL_CRON_PATTERN
 }
+
+export const OpenaiConfig = {
+  apiKey: process.env.OPENAI_API_KEY,
+  model: 'gpt-4o'
+}
