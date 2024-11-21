@@ -2,7 +2,7 @@
 
 import { Queue } from "bullmq";
 import { Worker, Job} from 'bullmq';
-import { BullMQConfig, githubConfig, redisConfig } from "../config/config";
+import { redisConfig } from "../config/config";
 import { generateTweetMesg, getRecentContributions, postTweet } from "../services";
 import { clearQueue, stopUserJobs } from "../config/SetupBullBoard";
 
@@ -12,10 +12,10 @@ export const queue = new Queue('TwitterBotQueue', options);
 
 const worker = new Worker('TwitterBotQueue', async (job: Job) => {
 
-  const { userId } = job.data;
+  const { userId, githubUsername } = job.data;
   // define your JOb Here
   console.log('fetching contributions.....')
-  const contributions = await getRecentContributions(githubConfig.username!);
+  const contributions = await getRecentContributions(githubUsername);
 
   console.log('posting tweet.....')
   const tweetContent = await generateTweetMesg(contributions, userId)
@@ -26,14 +26,14 @@ const worker = new Worker('TwitterBotQueue', async (job: Job) => {
 }, options);
 
 // Function to add a new recurring job
-export const activateJob = async (jobFrequencyCronPattern: string, timezone: string, email: string, userId: string) => {
+export const activateJob = async (jobFrequencyCronPattern: string, timezone: string, email: string, userId: string, githubUsername: string) => {
   // First, remove the old repeatable job
   await stopUserJobs(queue, userId)
 
   // Then, add a new repeatable job with the same name
   await queue.add(
     `${email} Twitter Job`, // Name of the job
-    { userId: userId }, // Job data
+    { userId: userId, githubUsername: githubUsername }, // Job data
     {
       repeat: 
       { pattern: jobFrequencyCronPattern, tz: timezone },
@@ -53,7 +53,7 @@ export const testActivationJobs = async () => {
     { userId: 'userId' }, // Job data
     {
       repeat: 
-      { pattern: '15 4 * * *', tz: 'Asia/Kolkata' },
+      { pattern: '35 4 * * *', tz: 'Asia/Kolkata' },
       // { every: 2000 },
       removeOnComplete: true, // Automatically remove completed jobs
     }

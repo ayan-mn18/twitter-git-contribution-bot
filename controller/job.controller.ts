@@ -56,8 +56,9 @@ export const editJobController = async (req: Request<EditJobParams, unknown, Edi
     const timezoneDetail = getTimezoneIdentifier(updatedUser.timezone!)
     const jobFrequencyCronPattern = getCronPattern(updatedUser.jobFrequency!)
     const email = updatedUser.email
+    const githubUsername = updatedUser.github_username
 
-    await activateJob(jobFrequencyCronPattern, timezone, email, userId);
+    await activateJob(jobFrequencyCronPattern, timezoneDetail, email, userId, githubUsername!);
 
     const response = new Success(JOB_UPDATED_SUCCESS, { updatedUser });
     res.status(response.statusCode).json(response);
@@ -86,8 +87,10 @@ export const activateJobController = async (req: Request<EditJobParams, unknown,
     const timezone = getTimezoneIdentifier(user.timezone!)
     const jobFrequencyCronPattern = getCronPattern(user.jobFrequency!)
     const email = user.email
+    const githubUsername = user.github_username
 
-    await activateJob(jobFrequencyCronPattern, timezone, email, userId);
+
+    await activateJob(jobFrequencyCronPattern, timezone, email, userId, githubUsername!);
 
     const response = new Success(JOB_ACTIVATE_SUCCESS, user);
     res.status(response.statusCode).json(response);
