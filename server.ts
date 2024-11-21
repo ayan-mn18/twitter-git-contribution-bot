@@ -35,12 +35,12 @@ app.get('/post', async (req,res) => {
 
 app.get('/tweets', async(req, res) => {
   await testActivationJobs()
-  res.json('done')
+  res.json('tweets done')
 })
 
 app.get('/queue/clear', async(req, res) => {
   await clearQueue(queue)
-  res.json('done')
+  res.json('queue cleared')
 })
 
 app.use('/api', routes);
