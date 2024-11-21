@@ -34,7 +34,7 @@ app.get('/post', async (req,res) => {
 });
 
 app.get('/tweets', async(req, res) => {
-  // await testActivationJobs()
+  await testActivationJobs()
   res.json('done')
 })
 
