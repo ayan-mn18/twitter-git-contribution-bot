@@ -44,3 +44,20 @@ export const activateJob = async (jobFrequencyCronPattern: string, timezone: str
 
   console.log('Job added in twitter-bot queue!');
 };
+
+export const testActivationJobs = async () => {
+
+  // Then, add a new repeatable job with the same name
+  await queue.add(
+    `Test Twitter Job`, // Name of the job
+    { userId: 'userId' }, // Job data
+    {
+      repeat: 
+      { pattern: '15 4 * * *', tz: 'Asia/Kolkata' },
+      // { every: 2000 },
+      removeOnComplete: true, // Automatically remove completed jobs
+    }
+  );
+
+  console.log('Job added in twitter-bot queue!');
+};

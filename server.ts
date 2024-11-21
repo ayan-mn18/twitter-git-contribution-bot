@@ -10,6 +10,7 @@ import { db } from "./db/config";
 import { errorHandler } from "./middleware.ts/errorHandler";
 import { uuid } from 'uuidv4'
 import { generateTweetMesg } from "./services";
+import { testActivationJobs } from "./jobs/tweet-scheduler";
 
 const app = express();
 
@@ -33,9 +34,8 @@ app.get('/post', async (req,res) => {
 });
 
 app.get('/tweets', async(req, res) => {
-  // const resposne = await generateTweetMesg(7, '1');
-  // console.log(resposne)
-  // res.json()
+  await testActivationJobs()
+  res.json('done')
 })
 
 app.use('/api', routes);
