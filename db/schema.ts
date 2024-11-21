@@ -11,7 +11,6 @@ import { sql } from 'drizzle-orm';
 export const users = sqliteTable('users', {
   userId: text('user_id').primaryKey(),
   email: text('email').notNull().unique(),
-  twitterUsername: text('twitter_username'),
   github: text('github').references(() => platformCred.id),
   leetcode: text('leetcode').references(() => platformCred.id),
   bitbucket: text('bitbucket').references(() => platformCred.id),
@@ -33,7 +32,8 @@ export const xCred = sqliteTable('x_cred', {
   apiSecret: text('api_secret').notNull(),
   accessToken: text('access_token').notNull(),
   accessSecret: text('access_secret').notNull(),
-  userId: text('user_id').references(() => users.userId)
+  userId: text('user_id').references(() => users.userId),
+  twitterUsername: text('twitter_username').notNull().unique(),
 });
 
 export const platformCred = sqliteTable('platform_cred', {

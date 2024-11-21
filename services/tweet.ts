@@ -30,12 +30,7 @@ export const postTweet = async (message: string, userId: string) => {
 
 export const generateTweetMesg = async (contributions: number, userId: string) => {
 
-  const tweets = await db.query.tweet.findMany({
-    where: eq(users.userId, userId),
-    limit: 1,
-    orderBy: [desc(tweet.postedAt)]
-  });
-  console.log(tweets)
+  const tweets = getTweetsOfUserInDb(userId);
 
   const system = `You are Ayan's Twitter bot. Your job is to tweet about daily contributions in a creative, motivational tone. 
 You have three levels of performance: low which is <=3 , medium <= 8, and high > 8.
@@ -66,4 +61,12 @@ const prompt = "Compose a tweet that reflects today's performance and motivates 
   const aiResponse = await generateAiResponse({system, prompt});
 
   return aiResponse.choices[0].message.content;
+}
+
+export const getTweetsOfUserInDb = async (userId: string) => {
+  return await db.query.tweet.findMany({
+    where: eq(users.userId, userId),
+    limit: 10,
+    orderBy: [desc(tweet.postedAt)]
+  });
 }

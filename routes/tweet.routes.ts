@@ -1,15 +1,13 @@
 import express from 'express';
-// import { addTwitterAccount } from '../controller/twitter.controller';
+import { addTwitterAccount, getTweetsOfUser } from '../controller/twitter.controller';
 
 const router = express.Router();
 
 // POST: /add-twitter-account/:userId
-// router.post('/add/:userId', addTwitterAccount);
+router.post('/add/:userId', addTwitterAccount);
 
 // GET: /tweets/:userId
-router.get('/tweets/:userId', (req, res) => {
-  res.send('Get tweets for a user sorted by date and time');
-});
+router.get('/tweets/:userId', getTweetsOfUser);
 
 
 export default router;
