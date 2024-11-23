@@ -25,5 +25,9 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
+    - run: | 
+          touch .env 
+          echo "${{ secrets.TWITTER_BOT_SECRETS }}" > .env
     - run: npm run build
-    - run: pm2 restart 0
+    - run: pm2 restart twitter-bot
+    - run: pm2 logs
