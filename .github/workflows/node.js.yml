@@ -30,4 +30,3 @@ jobs:
           echo "${{ secrets.TWITTER_BOT_SECRETS }}" > .env
     - run: npm run build
     - run: pm2 restart twitter-bot
-    - run: pm2 logs
