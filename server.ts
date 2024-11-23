@@ -46,7 +46,6 @@ app.get('/queue/clear', async(req, res) => {
 app.use('/api', routes);
 
 app.use(errorHandler)
-console.log(uuid())
 // replaceJob();
 
 app.listen(PORT, () => {
