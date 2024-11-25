@@ -23,3 +23,16 @@ export type EditJobReqBody = {
 export type EditJobParams = {
   userId: string
 }
+
+export type TwitterGetUserDetailsApiResponse = {
+  data: {
+    username: string
+    id: string
+    name: string
+  }
+}
+
+export type TwitterApiErrorResponse = {
+  error: string
+  message: string
+}

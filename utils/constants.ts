@@ -9,6 +9,8 @@ export const X_CRED_REQUIRED = { message: 'Twitter credentials (API Key, API Sec
 export const INVALID_TWITTER_USERNAME = { message: 'Invalid Twitter username format.', statusCode: 400 };
 export const TWITTER_USERNAME_ALREADY_REGISTERED = { message: 'Twitter username is already registered use another one', statusCode: 400 };
 export const INCORRECT_JOB_DETAILS = { message: 'Incorrect job frequency, job start time or timezone provided', statusCode: 400 };
+export const TOKENS_REQUIRED_TO_SIGN_IN = { message: 'AccessToken and RefreshToken are required to sign in', statusCode: 400 };
+export const TWITTER_USERNAME_ERROR = { message: 'Unable to retrieve Twitter username', statusCode: 400 };
 
 
 

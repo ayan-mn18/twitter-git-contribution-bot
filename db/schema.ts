@@ -8,7 +8,7 @@ import { sql } from 'drizzle-orm';
 // User schema
 export const users = sqliteTable('users', {
   userId: text('user_id').primaryKey(),
-  email: text('email').notNull().unique(),
+  email: text('email').unique(),
   github_username: text('github_username'),
   leetcode_username: text('leetcode_username'),
   bitbucket_username: text('bitbucket_username'),
@@ -26,10 +26,8 @@ export const users = sqliteTable('users', {
 // xCred schema
 export const xCred = sqliteTable('x_cred', {
   id: text('id').primaryKey(),
-  apiKey: text('api_key').notNull(),
-  apiSecret: text('api_secret').notNull(),
   accessToken: text('access_token').notNull(),
-  accessSecret: text('access_secret').notNull(),
+  refreshToken: text('refresh_token').notNull(),
   userId: text('user_id').references(() => users.userId),
   twitterUsername: text('twitter_username').notNull().unique(),
 });
