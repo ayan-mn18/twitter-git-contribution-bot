@@ -10,6 +10,7 @@ export const XConfig = {
   appSecret: process.env.X_API_SECRET!,
   accessToken: process.env.X_ACCESS_TOKEN!,
   accessSecret: process.env.X_ACCESS_SECRET!,
+  base64Encoding: process.env.BASE64ENCODING!
 }
 
 export const redisConfig = {

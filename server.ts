@@ -11,6 +11,7 @@ import { errorHandler } from "./middleware.ts/errorHandler";
 import { uuid } from 'uuidv4'
 import { generateTweetMesg } from "./services";
 import { queue, testActivationJobs } from "./jobs/tweet-scheduler";
+import { getAccessToken } from "./services/auth";
 
 const app = express();
 
@@ -41,6 +42,13 @@ app.get('/tweets', async(req, res) => {
 app.get('/queue/clear', async(req, res) => {
   await clearQueue(queue)
   res.json('queue cleared')
+})
+
+
+app.get('/refreshtoken', async (req, res) => {
+  const tokens = await getAccessToken('9c661527-5325-495f-b271-478f727bdcd9')
+  console.log(tokens)
+  res.json(tokens)
 })
 
 app.use('/api', routes);

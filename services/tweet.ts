@@ -12,6 +12,7 @@ const client = new TwitterApi(XConfig);
 
 export const postTweet = async (message: string, userId: string) => {
   try {
+    // old method
     const response = await client.v2.tweet(message);
 
     // adding tweets in db

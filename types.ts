@@ -36,3 +36,8 @@ export type TwitterApiErrorResponse = {
   error: string
   message: string
 }
+
+export type XTokens = {
+  refreshToken: string,
+  accessToken: string
+}
