@@ -50,10 +50,10 @@ export const testActivationJobs = async () => {
   // Then, add a new repeatable job with the same name
   await queue.add(
     `Test Twitter Job`, // Name of the job
-    { userId: 'userId', githubUsername: 'ayan-mn18' }, // Job data
+    { userId: '73a6d6ea-14a0-4a61-97e1-739070b7f51f', githubUsername: 'ayan-mn18' }, // Job data
     {
       repeat: 
-      { pattern: '35 4 * * *', tz: 'Asia/Kolkata' },
+      { pattern: '15 18 * * *', tz: 'Asia/Kolkata' },
       // { every: 2000 },
       removeOnComplete: true, // Automatically remove completed jobs
     }

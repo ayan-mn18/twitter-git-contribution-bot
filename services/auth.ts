@@ -7,6 +7,7 @@ import { XTokens } from "../types";
 
 export const getAccessToken = async (userId: string) => {
   try {
+    console.log("userId: ", userId)
     const usersXCred = await db.query.xCred.findFirst({
       where: eq(xCred.userId, userId)
     })
@@ -26,7 +27,7 @@ export const getAccessToken = async (userId: string) => {
       throw new Error("user not signed in properly")
     } 
 
-    db.update(xCred).set({
+    await db.update(xCred).set({
       accessToken: newAccessToken,
       refreshToken: newRefreshToken
     }).where(eq(xCred.userId, userId))

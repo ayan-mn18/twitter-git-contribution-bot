@@ -6,24 +6,47 @@ import { uuid } from 'uuidv4';
 import { generateAiResponse } from './openai';
 import { eq } from 'drizzle-orm';
 import { desc } from 'drizzle-orm';
+import { getAccessToken } from './auth';
+import axios from 'axios';
+import { XTokens } from '../types';
 
-const client = new TwitterApi(XConfig);
+// old client
+// const client = new TwitterApi(XConfig);
 
 
-export const postTweet = async (message: string, userId: string) => {
+export const postTweet = async (tweetText: string, userId: string) => {
   try {
     // old method
-    const response = await client.v2.tweet(message);
+    // const response = await client.v2.tweet(tweetText);
+
+    // new method
+    const postTweetUrl = "https://api.twitter.com/2/tweets";
+    const tokens: XTokens  = await getAccessToken(userId) as XTokens;
+    console.log("Fresh AccessToken: ", tokens)
+
+    const response = await axios.post(
+      postTweetUrl,
+      { text: tweetText },
+      {
+        headers: {
+          Authorization: `Bearer ${tokens.accessToken}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    console.log("Tweet posted successfully:", response.data);
 
     // adding tweets in db
     db.insert(tweet).values({
       id: uuid(),
-      content: message,
+      content: tweetText,
       postedAt: new Date(),
       userId: userId
     })
   
     console.log('Tweet posted:', response);
+    return response.data;
   } catch (error) {
     console.error('Error posting tweet:', error);
   }
