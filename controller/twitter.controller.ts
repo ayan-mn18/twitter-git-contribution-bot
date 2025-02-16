@@ -7,7 +7,7 @@ import { TWITTER_USERNAME_REQUIRED, X_CRED_REQUIRED, USER_NOT_FOUND, TWITTER_ACC
 import { HttpError, Success } from '../utils/httpResponse';
 import { XCredentials } from '../types';
 import { uuid } from 'uuidv4';
-import { getTweetsOfUserInDb } from '../services';
+import { getTweetsOfUserInDb, postTweet } from '../services';
 
 // Add a Twitter account for a user
 export const addTwitterAccount = async (req: Request, res: Response, next: NextFunction) => {
@@ -94,4 +94,30 @@ export const getTweetsOfUser = async (req: Request, res: Response, next: NextFun
     console.error(error);
     next(error);
   }
-}
+};
+
+export const testTweet = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    // Test tweet
+
+    const {tweetText, userId} = req.body;
+
+    if(!tweetText) {
+      throw new HttpError({message: "Tweet text is required", statusCode: 400});
+    }
+
+     if(!userId) {
+      throw new HttpError({message: "UserId is required", statusCode: 400});
+     }
+
+    // Post tweet
+    await postTweet(tweetText, userId);
+
+    // Return success response
+    const response = new Success("Test tweet posted successfully", { tweetText });
+    res.status(response.statusCode).json(response);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
